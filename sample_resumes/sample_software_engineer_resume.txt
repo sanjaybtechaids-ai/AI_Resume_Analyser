@@ -1,0 +1,36 @@
+Alex Morgan
+San Francisco, CA | alex.morgan@email.com | +1 (555) 234-5678
+linkedin.com/in/alexmorgan-dev | github.com/alexmorgancodes
+
+PROFESSIONAL SUMMARY
+Results-driven Full-Stack Software Engineer with 4+ years of experience designing and scaling web applications, microservices, and high-concurrency systems. Proficient in Python, React, PostgreSQL, and cloud deployments. Proven track record improving system performance and reducing downtime.
+
+TECHNICAL SKILLS
+- Languages: Python, JavaScript, TypeScript, SQL, HTML5, CSS3, Bash
+- Frameworks & Libraries: React, Node.js, Express, FastAPI, Django, Tailwind CSS, Redux
+- Cloud & DevOps: AWS (EC2, S3, RDS), Docker, Git, GitHub Actions, CI/CD, Linux, Nginx
+- Databases: PostgreSQL, MongoDB, Redis
+- Methodologies: Agile, Scrum, REST APIs, Microservices, System Design, Unit Testing
+
+WORK EXPERIENCE
+Software Engineer | NexaTech Solutions | June 2022 – Present
+- Architected and deployed scalable RESTful APIs using FastAPI and PostgreSQL, serving 40,000+ daily active users.
+- Optimized slow SQL database queries and implemented Redis caching, reducing server response times by 42%.
+- Built dynamic, responsive UI dashboards in React.js and TypeScript, increasing user session duration by 25%.
+- Automated continuous integration and deployment (CI/CD) with GitHub Actions and Docker, reducing release cycle times from 2 days to under 30 minutes.
+- Spearheaded migration of legacy monolithic backend to containerized microservices on AWS EC2 and RDS.
+
+Junior Full-Stack Developer | BrightWave Digital | Aug 2020 – May 2022
+- Developed customer-facing web applications using Python, Django, and React.
+- Collaborated with product managers and UX designers in an agile environment across bi-weekly sprints.
+- Implemented user authentication and role-based access control with JWT and OAuth2.
+- Wrote comprehensive unit and integration tests achieving 85% code coverage.
+- Helped maintain database schemas and handled customer bug reports.
+
+EDUCATION
+Bachelor of Science in Computer Science
+University of California, Davis | Graduated 2020
+
+PROJECTS & CERTIFICATIONS
+- Cloud Scale E-Commerce: Full-stack shop platform built with React, FastAPI, Stripe API, and Docker (1,200+ GitHub stars).
+- AWS Certified Solutions Architect – Associate (2023)

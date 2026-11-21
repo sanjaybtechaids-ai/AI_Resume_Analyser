@@ -1,0 +1,31 @@
+Dr. Elena Vance
+Seattle, WA | elena.vance@ai-research.org | (555) 987-6543
+linkedin.com/in/elenavance-phd | github.com/elenavance
+
+PROFESSIONAL SUMMARY
+Innovative Machine Learning Engineer & Data Scientist with 5+ years of experience developing deep learning architectures, Natural Language Processing (NLP) models, and generative AI pipelines. Expert in PyTorch, Python, and cloud ML deployments.
+
+TECHNICAL SKILLS
+- Languages: Python, R, SQL, Bash, C++
+- ML & AI: PyTorch, TensorFlow, HuggingFace, Scikit-Learn, Pandas, NumPy, NLP, LLM, LangChain, Transformers, Computer Vision
+- Big Data & Cloud: AWS SageMaker, GCP Vertex AI, Docker, Kubernetes, Spark, BigQuery, Kafka
+- Databases: PostgreSQL, ChromaDB, Pinecone, MongoDB
+- Concepts: A/B Testing, Predictive Modeling, Statistical Analysis, Vector Embeddings, MLOps
+
+PROFESSIONAL EXPERIENCE
+Senior Machine Learning Engineer | OmniData Technologies | Jan 2023 – Present
+- Spearheaded the design and deployment of enterprise LLM retrieval-augmented generation (RAG) systems using LangChain, PyTorch, and ChromaDB vector search.
+- Fine-tuned transformer models for clinical entity extraction, improving F1-score from 0.78 to 0.93.
+- Engineered automated data preprocessing and feature store pipelines handling over 5TB of unstructured text data weekly via Apache Spark and BigQuery.
+- Containerized model serving microservices using Docker and FastAPI on AWS SageMaker, decreasing inference latency by 38% under 2,000 requests/sec.
+- Mentored a cross-functional squad of 5 junior data scientists and conducted weekly machine learning paper reviews.
+
+Data Scientist | DataVenture Analytics | Sep 2020 – Dec 2022
+- Built predictive customer churn classification models with XGBoost and Scikit-Learn, saving $1.4M in retained revenue annually.
+- Conducted hypothesis testing, power analysis, and A/B test experiments for product feature launches across 2M active accounts.
+- Developed interactive business intelligence dashboards in Tableau and Streamlit for C-suite executive reporting.
+- Responsible for training regression and time-series forecasting models in Python.
+
+EDUCATION
+Ph.D. in Computational Data Science | University of Washington (2020)
+B.S. in Statistics and Applied Mathematics | UCLA (2016)
