@@ -1,5 +1,5 @@
 @echo off
-echo Starting AI Resume Analyser...
+echo Starting ResumeIQ...
 cd /d "%~dp0"
-streamlit run app.py
+python -m uvicorn app:app --reload --host 127.0.0.1 --port 8000
 pause

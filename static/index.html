@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#172554">
+  <title>ResumeIQ | Resume checker</title>
+  <style>
+    :root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#14213d;background:#f5f7fb;font-synthesis:none;text-rendering:optimizeLegibility}
+    *{box-sizing:border-box}
+    body{margin:0}
+    .topbar{height:72px;background:#fff;border-bottom:1px solid #e6eaf0;display:flex;align-items:center}
+    .topbar-inner,.page{width:min(1120px,calc(100% - 40px));margin:0 auto}
+    .brand{display:flex;align-items:center;gap:11px;font-size:19px;font-weight:800;letter-spacing:-.03em}
+    .brand-icon{width:36px;height:36px;border-radius:11px;background:#2563eb;color:#fff;display:grid;place-items:center}
+    .tagline{margin-left:auto;color:#64748b;font-size:13px}
+    .page{padding:30px 0 64px}
+    .hero{border-radius:20px;padding:38px 42px;background:linear-gradient(120deg,#172554,#1e40af 65%,#2563eb);color:#fff;box-shadow:0 12px 30px #1e3a8a22}
+    .eyebrow{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.13em;color:#bfdbfe}
+    h1{font-size:clamp(30px,5vw,43px);line-height:1.12;letter-spacing:-.045em;margin:12px 0}
+    .hero p{max-width:680px;color:#dbeafe;font-size:16px;line-height:1.6;margin:0}
+    .panel{background:#fff;border:1px solid #e5eaf1;border-radius:16px;padding:24px;margin-top:20px;box-shadow:0 4px 16px #0f172a08}
+    .panel-heading{display:flex;align-items:center;gap:11px;margin:0 0 18px;font-size:17px}
+    .step{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:#1d4ed8;background:#dbeafe;font-size:13px;font-weight:800}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    label{display:block;font-weight:700;font-size:13px;margin:0 0 8px;color:#334155}
+    input[type=file],select,textarea,input[type=password]{width:100%;border:1px solid #d7dee8;border-radius:9px;background:#fff;color:#14213d;font:inherit;font-size:14px;padding:11px 12px}
+    input[type=file]{padding:9px}
+    textarea{resize:vertical;min-height:180px;line-height:1.5}
+    select:focus,textarea:focus,input:focus{outline:3px solid #bfdbfe;border-color:#3b82f6}
+    .field-note{font-size:12px;color:#64748b;margin:7px 0 0}
+    .separator{text-align:center;color:#94a3b8;font-size:12px;margin:13px 0}
+    details summary{font-weight:700;font-size:14px;cursor:pointer}
+    details[open] summary{margin-bottom:18px}
+    .engine-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+    .action-row{display:flex;align-items:center;gap:14px;margin-top:20px}
+    button,.download{border:0;border-radius:10px;background:#2563eb;color:#fff;padding:13px 22px;font:inherit;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;justify-content:center;align-items:center}
+    button:hover,.download:hover{background:#1d4ed8}
+    button:disabled{opacity:.65;cursor:wait}
+    .privacy{font-size:12px;color:#64748b;line-height:1.5}
+    #error{display:none;color:#991b1b;background:#fef2f2;border:1px solid #fecaca;padding:12px 14px;border-radius:10px;margin-top:16px}
+    #results{display:none}
+    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .metric{border:1px solid #e5eaf1;border-radius:13px;padding:17px;background:#fff}
+    .metric-label{color:#64748b;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em}
+    .metric-value{font-size:30px;font-weight:850;letter-spacing:-.04em;margin:7px 0 2px}
+    .metric-detail{font-size:12px;color:#64748b}
+    .results-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+    .result-card{background:#fff;border:1px solid #e5eaf1;border-radius:14px;padding:19px;min-width:0}
+    .result-card h3{margin:0 0 13px;font-size:15px}
+    .result-card p{color:#475569;font-size:14px;line-height:1.6;margin:8px 0}
+    .list{margin:0;padding-left:19px;color:#475569;font-size:13px;line-height:1.7}
+    .badge{display:inline-block;border-radius:999px;background:#eff6ff;color:#1d4ed8;padding:5px 9px;margin:3px 4px 3px 0;font-size:12px;font-weight:650}
+    .badge.missing{background:#fff7ed;color:#c2410c}
+    .subtle{font-size:12px!important;color:#64748b!important}
+    .pill{display:inline-block;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:800}
+    .green{background:#dcfce7;color:#166534}.amber{background:#fef3c7;color:#92400e}.red{background:#fee2e2;color:#991b1b}
+    .rewrite{border-left:3px solid #2563eb;background:#f8fafc;padding:12px;margin:10px 0;border-radius:0 8px 8px 0;font-size:13px;line-height:1.55}
+    .rewrite strong{display:block;margin-bottom:4px}
+    .section-row{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid #f1f5f9;font-size:13px}
+    .success{color:#15803d}.warning{color:#b45309}
+    .footer-note{color:#94a3b8;font-size:11px;line-height:1.5;margin:20px 2px}
+    .results-title-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+    .results-title-row h2{margin:0;font-size:20px}
+    @media(max-width:720px){.topbar-inner,.page{width:min(100% - 24px,1120px)}.hero{padding:28px 23px}.panel{padding:18px}.grid,.results-grid,.engine-row{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}.tagline{display:none}.action-row{align-items:flex-start;flex-direction:column}.action-row button{width:100%}.results-title-row{align-items:flex-start;gap:12px;flex-direction:column}}
+  </style>
+</head>
+<body>
+  <header class="topbar"><div class="topbar-inner brand"><span class="brand-icon">R</span><span>ResumeIQ</span><span class="tagline">Professional resume intelligence</span></div></header>
+  <main class="page">
+    <section class="hero">
+      <div class="eyebrow">Career-ready insights</div>
+      <h1>Make every application<br>ATS-ready.</h1>
+      <p>Review resume quality, match a target role, spot repeated language, and get clear next steps before you apply.</p>
+    </section>
+
+    <form id="analysis-form">
+      <section class="panel">
+        <h2 class="panel-heading"><span class="step">1</span> Candidate resume</h2>
+        <div class="grid">
+          <div>
+            <label for="resume-file">Upload a PDF, DOCX, or TXT</label>
+            <input id="resume-file" name="resume_file" type="file" accept=".pdf,.docx,.txt">
+            <p class="field-note">Maximum upload size: 2 MB. You can paste text instead.</p>
+          </div>
+          <div>
+            <label for="resume-text">Resume text</label>
+            <textarea id="resume-text" name="resume_text" placeholder="Paste your resume text here..."></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 class="panel-heading"><span class="step">2</span> Target role</h2>
+        <label for="template">Start with a job description template (optional)</label>
+        <select id="template" aria-label="Job description template"><option value="">Custom / paste below</option></select>
+        <div style="height:14px"></div>
+        <label for="jd-text">Job description</label>
+        <textarea id="jd-text" name="jd_text" style="min-height:155px" placeholder="Paste the target role's requirements and responsibilities..."></textarea>
+      </section>
+
+      <section class="panel">
+        <details>
+          <summary>Originality check — add reference text (optional)</summary>
+          <p class="field-note">Compare against a reference resume or text. Repeated sentences within the resume are checked even without a reference.</p>
+          <div class="grid" style="margin-top:14px">
+            <div>
+              <label for="reference-file">Upload a reference file</label>
+              <input id="reference-file" name="reference_file" type="file" accept=".pdf,.docx,.txt">
+            </div>
+            <div>
+              <label for="reference-text">Or paste reference text</label>
+              <textarea id="reference-text" name="reference_text" style="min-height:120px" placeholder="Paste comparison text..."></textarea>
+            </div>
+          </div>
+        </details>
+        <div class="engine-row">
+          <div>
+            <label for="provider">Evaluation engine</label>
+            <select id="provider" name="provider">
+              <option value="auto">Built-in Smart Engine (no API key)</option>
+              <option value="gemini">Google Gemini</option>
+              <option value="openai">OpenAI</option>
+            </select>
+          </div>
+          <div>
+            <label for="api-key">Optional AI API key</label>
+            <input id="api-key" name="api_key" type="password" autocomplete="off" placeholder="Used for this analysis only">
+          </div>
+        </div>
+        <div class="action-row">
+          <button id="analyze-button" type="submit">Analyze resume</button>
+          <span class="privacy">Resume text is processed by this app and not stored by its code. Choosing Gemini or OpenAI sends resume and job text to that provider.</span>
+        </div>
+        <div id="error" role="alert"></div>
+      </section>
+    </form>
+
+    <section id="results" class="panel" aria-live="polite">
+      <div class="results-title-row"><h2>Resume review</h2><a id="download-report" class="download" href="#" download="resumeiq-analysis-report.md">Download report</a></div>
+      <div class="metrics">
+        <article class="metric"><div class="metric-label">ATS match</div><div id="metric-ats" class="metric-value">—</div><div id="detail-ats" class="metric-detail"></div></article>
+        <article class="metric"><div class="metric-label">Skills match</div><div id="metric-skills" class="metric-value">—</div><div id="detail-skills" class="metric-detail"></div></article>
+        <article class="metric"><div class="metric-label">Quantified impact</div><div id="metric-impact" class="metric-value">—</div><div id="detail-impact" class="metric-detail"></div></article>
+        <article class="metric"><div class="metric-label">Originality estimate</div><div id="metric-originality" class="metric-value">—</div><div id="detail-originality" class="metric-detail"></div></article>
+      </div>
+      <div class="results-grid">
+        <article class="result-card"><h3>Skill alignment</h3><div id="matched-skills"></div><p id="missing-skills"></p><div id="skill-profile"></div></article>
+        <article class="result-card"><h3>Originality review</h3><div id="originality-status"></div><div id="originality-detail"></div></article>
+        <article class="result-card"><h3>ATS structure</h3><p id="resume-length"></p><div id="section-checklist"></div><p id="contacts" class="subtle"></p></article>
+        <article class="result-card"><h3>Recruiter feedback</h3><p id="verdict"></p><strong>Strengths</strong><ul id="strengths" class="list"></ul><strong>Priority improvements</strong><ul id="improvements" class="list"></ul></article>
+        <article class="result-card"><h3>Bullet improvements</h3><p id="verb-counts" class="subtle"></p><div id="rewrites"></div></article>
+        <article class="result-card"><h3>Interview preparation</h3><ol id="questions" class="list"></ol></article>
+      </div>
+      <p class="footer-note">Originality is an offline heuristic comparison, not a public-internet plagiarism search or proof of authorship. Confirm every suggested resume edit reflects your actual experience.</p>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById("analysis-form");
+    const templateSelect = document.getElementById("template");
+    const jdInput = document.getElementById("jd-text");
+    const errorBox = document.getElementById("error");
+    const analyzeButton = document.getElementById("analyze-button");
+
+    function setText(id, value) {
+      document.getElementById(id).textContent = value == null ? "" : String(value);
+    }
+
+    function addItems(id, items, emptyText) {
+      const list = document.getElementById(id);
+      list.replaceChildren();
+      if (!items || !items.length) {
+        const item = document.createElement("li");
+        item.textContent = emptyText;
+        list.append(item);
+        return;
+      }
+      items.forEach((value) => {
+        const item = document.createElement("li");
+        item.textContent = value;
+        list.append(item);
+      });
+    }
+
+    function addBadges(container, items, missing) {
+      container.replaceChildren();
+      if (!items || !items.length) {
+        container.textContent = "None detected.";
+        return;
+      }
+      items.forEach((value) => {
+        const badge = document.createElement("span");
+        badge.className = missing ? "badge missing" : "badge";
+        badge.textContent = value;
+        container.append(badge);
+      });
+    }
+
+    function render(data) {
+      const analysis = data.analysis;
+      const originality = data.originality;
+      const feedback = data.feedback;
+      setText("metric-ats", `${analysis.ats_score}%`);
+      setText("detail-ats", analysis.has_jd ? "Target-role alignment" : "General resume quality");
+      setText("metric-skills", `${analysis.skill_match_pct ?? 100}%`);
+      setText("detail-skills", `${(analysis.matched_skills || []).length} matched skills`);
+      setText("metric-impact", `${analysis.bullets.quantification_score}%`);
+      setText("detail-impact", `${analysis.bullets.quantified_count} measurable results found`);
+      setText("metric-originality", `${originality.originality_score}%`);
+      setText("detail-originality", originality.status);
+
+      const matchedNode = document.getElementById("matched-skills");
+      addBadges(matchedNode, analysis.matched_skills, false);
+      const missingNode = document.getElementById("missing-skills");
+      missingNode.textContent = analysis.missing_skills && analysis.missing_skills.length
+        ? `Skills to review: ${analysis.missing_skills.join(", ")}. Add only skills you can demonstrate.`
+        : "No major target-skill gaps detected.";
+      const profile = document.getElementById("skill-profile");
+      profile.replaceChildren();
+      Object.entries(analysis.resume_skills || {}).forEach(([category, skills]) => {
+        const line = document.createElement("p");
+        line.textContent = `${category}: ${skills.join(", ")}`;
+        profile.append(line);
+      });
+
+      const tone = originality.status_tone === "green" ? "green" : (originality.status_tone === "amber" ? "amber" : "red");
+      const status = document.getElementById("originality-status");
+      status.replaceChildren();
+      const pill = document.createElement("span");
+      pill.className = `pill ${tone}`;
+      pill.textContent = originality.status;
+      status.append(pill);
+      const details = document.getElementById("originality-detail");
+      details.replaceChildren();
+      const note = document.createElement("p");
+      note.textContent = originality.has_reference
+        ? `Estimated reference similarity: ${originality.reference_similarity}%.`
+        : "No reference text supplied; internal repeated-sentence detection was still performed.";
+      details.append(note);
+      if (originality.matched_phrases.length) {
+        const heading = document.createElement("strong");
+        heading.textContent = "Overlapping phrases";
+        details.append(heading);
+        originality.matched_phrases.forEach((phrase) => {
+          const item = document.createElement("p");
+          item.textContent = phrase;
+          details.append(item);
+        });
+      }
+      if (originality.repeated_sentences.length) {
+        const heading = document.createElement("strong");
+        heading.textContent = "Repeated sentences";
+        details.append(heading);
+        originality.repeated_sentences.forEach((sentence) => {
+          const item = document.createElement("p");
+          item.textContent = sentence;
+          details.append(item);
+        });
+      }
+
+      setText("resume-length", `${analysis.word_count} words · about ${analysis.reading_time_mins} min read · ${analysis.length_feedback}`);
+      const checklist = document.getElementById("section-checklist");
+      checklist.replaceChildren();
+      Object.entries(analysis.sections.sections).forEach(([name, present]) => {
+        const row = document.createElement("div");
+        row.className = "section-row";
+        const sectionName = document.createElement("span");
+        sectionName.textContent = name;
+        const state = document.createElement("strong");
+        state.className = present ? "success" : "warning";
+        state.textContent = present ? "Detected" : "Missing";
+        row.append(sectionName, state);
+        checklist.append(row);
+      });
+      const contacts = analysis.sections.contact_details;
+      setText("contacts", `Email: ${contacts.email} · Phone: ${contacts.phone} · LinkedIn: ${contacts.linkedin} · GitHub: ${contacts.github}`);
+      setText("verdict", feedback.executive_summary);
+      addItems("strengths", feedback.strengths, "No strengths were returned.");
+      addItems("improvements", feedback.improvements, "No priority improvements were returned.");
+      setText("verb-counts", `${analysis.bullets.strong_verb_count} strong action verbs · ${analysis.bullets.weak_verb_count} passive phrases`);
+
+      const rewrites = document.getElementById("rewrites");
+      rewrites.replaceChildren();
+      (feedback.bullet_rewrites || []).forEach((rewrite, index) => {
+        const card = document.createElement("div");
+        card.className = "rewrite";
+        const title = document.createElement("strong");
+        title.textContent = `Revision ${index + 1}`;
+        const before = document.createElement("p");
+        before.textContent = `Before: ${rewrite.original}`;
+        const after = document.createElement("p");
+        after.textContent = `Recommended: ${rewrite.revised}`;
+        const rationale = document.createElement("p");
+        rationale.className = "subtle";
+        rationale.textContent = rewrite.rationale;
+        card.append(title, before, after, rationale);
+        rewrites.append(card);
+      });
+      addItems("questions", feedback.interview_questions, "No interview questions were returned.");
+
+      const report = new Blob([data.report_markdown], {type: "text/markdown"});
+      const download = document.getElementById("download-report");
+      if (download.dataset.url) URL.revokeObjectURL(download.dataset.url);
+      download.dataset.url = URL.createObjectURL(report);
+      download.href = download.dataset.url;
+      document.getElementById("results").style.display = "block";
+      document.getElementById("results").scrollIntoView({behavior: "smooth", block: "start"});
+    }
+
+    fetch("/api/templates")
+      .then((response) => response.json())
+      .then((templates) => {
+        Object.entries(templates).forEach(([name, description]) => {
+          const option = document.createElement("option");
+          option.value = name;
+          option.textContent = name;
+          option.dataset.description = description;
+          templateSelect.append(option);
+        });
+      });
+
+    templateSelect.addEventListener("change", () => {
+      const option = templateSelect.selectedOptions[0];
+      if (option && option.dataset.description) jdInput.value = option.dataset.description;
+    });
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      errorBox.style.display = "none";
+      analyzeButton.disabled = true;
+      analyzeButton.textContent = "Analyzing...";
+      try {
+        const response = await fetch("/api/analyze", {method: "POST", body: new FormData(form)});
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload.detail || "The analysis could not be completed.");
+        render(payload);
+      } catch (error) {
+        errorBox.textContent = error.message || "Unable to connect. Please try again.";
+        errorBox.style.display = "block";
+      } finally {
+        analyzeButton.disabled = false;
+        analyzeButton.textContent = "Analyze resume";
+      }
+    });
+  </script>
+</body>
+</html>

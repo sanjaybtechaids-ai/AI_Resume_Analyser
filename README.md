@@ -1,10 +1,10 @@
 # 📄 AI Resume Analyser & ATS Optimizer
 
-A lightweight, modern AI-powered Resume Analyser and ATS (Applicant Tracking System) Optimizer built with Python and Streamlit.
+A lightweight, professional resume checker and ATS (Applicant Tracking System) optimizer built with Python and FastAPI, ready to deploy on Vercel.
 
 It audits resumes against Job Descriptions, detects technical and soft skill gaps, evaluates quantifiable business impact, flags passive verbs, verifies standard ATS formatting, and produces recruiter-level feedback with AI-powered bullet point rewrites.
 
-ResumeIQ also includes a privacy-first originality check. Upload or paste reference text for local similarity comparison, with repeated-sentence detection available even without a reference. It is a heuristic signal and does not claim to search or prove results across the public internet.
+ResumeIQ also includes an originality check. Upload or paste reference text for similarity comparison, with repeated-sentence detection available even without a reference. It is a heuristic signal and does not search or prove results across the public internet.
 
 ---
 
@@ -34,8 +34,8 @@ ResumeIQ also includes a privacy-first originality check. Upload or paste refere
   - Top strengths and high-priority recommendations
   - Tailored interview questions probing skill gaps
 - **Dual AI Engine**:
-  - **Built-in Smart NLP Engine**: Works 100% offline with zero setup and no API keys needed!
-  - **Cloud LLM Support (Optional)**: Enter your Google Gemini or OpenAI API key directly in the sidebar for deeper custom critiques.
+  - **Built-in Smart NLP Engine**: No third-party AI key required.
+  - **Cloud LLM Support (Optional)**: Enter a Google Gemini or OpenAI API key for deeper custom critiques.
 - **Export Reports**: 1-click download of comprehensive analysis reports in Markdown.
 - **CLI Utility**: Terminal-based analysis tool for rapid workflows.
 
@@ -58,23 +58,21 @@ pip install -r requirements.txt
 Double-click `run.bat` or run:
 
 ```bash
-streamlit run app.py
+python -m uvicorn app:app --reload
 ```
 
-The app will open automatically in your browser at `http://localhost:8501`.
+Open `http://127.0.0.1:8000` in your browser.
 
-### 3. Deploy the Streamlit app
+### 3. Deploy to Vercel
 
-This project is a Streamlit app, not a Vercel ASGI/WSGI function. Vercel's Python runtime expects an exported `app` or `application` handler, so deploying `app.py` there produces `PYTHON_ENTRYPOINT_NOT_FOUND`. Adding a placeholder handler would not run the Streamlit interface.
+The Vercel Python runtime loads the FastAPI `app` exported from the root `app.py`. The `requirements.txt` file includes the API dependencies, and Vercel serves the UI from `static/index.html`.
 
-Deploy it with [Streamlit Community Cloud](https://share.streamlit.io/):
+1. Import this GitHub repository into Vercel.
+2. Leave the framework preset on **Other** or allow Vercel to detect Python.
+3. Use the root directory; no build command or output directory is required.
+4. Deploy the project. The app should open at the deployment URL.
 
-1. Sign in with GitHub and select **Create app**.
-2. Select this repository, the `main` branch, and `app.py` as the app file.
-3. Keep the root `requirements.txt` as the dependency file, then deploy.
-4. If you use an external AI provider, add credentials through the app's settings when using it; do not commit API keys to the repository.
-
-For other hosting options, use a service that supports running Streamlit's server. See the [Streamlit deployment guides](https://docs.streamlit.io/deploy).
+Do not configure `app.py` as a Streamlit command or add a placeholder handler; it is now a FastAPI ASGI entrypoint.
 
 ---
 
@@ -102,11 +100,12 @@ Available preset roles:
 
 ```
 AI_Resume_Analyser/
-├── app.py                  # Streamlit web application & interactive UI
+├── app.py                  # FastAPI/Vercel entrypoint and analysis API
+├── static/index.html       # ResumeIQ web interface
 ├── cli.py                  # Terminal command-line interface
 ├── run.bat                 # 1-click Windows launcher
 ├── run.ps1                 # PowerShell launcher
-├── requirements.txt        # Dependencies (streamlit, pypdf, python-docx, requests)
+├── requirements.txt        # Dependencies (FastAPI, Uvicorn, parsers, requests)
 ├── test_analyzer.py        # Automated test suite
 ├── analyzer/
 │   ├── __init__.py         # Package entrypoint
@@ -123,6 +122,8 @@ AI_Resume_Analyser/
 
 ## 🔑 AI Engine Configuration (Optional)
 
-- **Default (No API Key Required)**: The app runs with its built-in rule and NLP engine immediately.
-- **Google Gemini**: Get a free API key from [Google AI Studio](https://aistudio.google.com/) and paste it into the sidebar or set `GEMINI_API_KEY=your_key`.
-- **OpenAI**: Paste your OpenAI key into the sidebar or set `OPENAI_API_KEY=your_key`.
+- **Default (No API Key Required)**: The app uses its built-in rule and NLP engine.
+- **Google Gemini**: Get a key from [Google AI Studio](https://aistudio.google.com/) and enter it for an analysis.
+- **OpenAI**: Enter your OpenAI API key for an analysis.
+
+When deployed, resume and reference text are sent to the Vercel function for analysis; this app does not write them to a database or file. Selecting Gemini or OpenAI also sends resume and job-description text to the selected provider. API keys are sent with the analysis request and must never be committed to the repository.

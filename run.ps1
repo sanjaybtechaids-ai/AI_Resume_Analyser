@@ -1,3 +1,3 @@
-Write-Host "Starting AI Resume Analyser..." -ForegroundColor Cyan
+Write-Host "Starting ResumeIQ..." -ForegroundColor Cyan
 Set-Location -Path $PSScriptRoot
-streamlit run app.py
+python -m uvicorn app:app --reload --host 127.0.0.1 --port 8000
