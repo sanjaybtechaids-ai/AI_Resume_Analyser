@@ -63,6 +63,19 @@ streamlit run app.py
 
 The app will open automatically in your browser at `http://localhost:8501`.
 
+### 3. Deploy the Streamlit app
+
+This project is a Streamlit app, not a Vercel ASGI/WSGI function. Vercel's Python runtime expects an exported `app` or `application` handler, so deploying `app.py` there produces `PYTHON_ENTRYPOINT_NOT_FOUND`. Adding a placeholder handler would not run the Streamlit interface.
+
+Deploy it with [Streamlit Community Cloud](https://share.streamlit.io/):
+
+1. Sign in with GitHub and select **Create app**.
+2. Select this repository, the `main` branch, and `app.py` as the app file.
+3. Keep the root `requirements.txt` as the dependency file, then deploy.
+4. If you use an external AI provider, add credentials through the app's settings when using it; do not commit API keys to the repository.
+
+For other hosting options, use a service that supports running Streamlit's server. See the [Streamlit deployment guides](https://docs.streamlit.io/deploy).
+
 ---
 
 ## 💻 CLI Usage
